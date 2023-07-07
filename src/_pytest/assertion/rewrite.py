@@ -13,6 +13,7 @@ import struct
 import sys
 import tokenize
 import types
+import astpretty
 from pathlib import Path
 from pathlib import PurePath
 from typing import Callable
@@ -350,6 +351,7 @@ def _rewrite_test(fn: Path, config: Config) -> Tuple[os.stat_result, types.CodeT
     strfn = str(fn)
     tree = ast.parse(source, filename=strfn)
     rewrite_asserts(tree, source, strfn, config)
+    astpretty.pprint(tree, indent='    ', show_offsets=True)
     co = compile(tree, strfn, "exec", dont_inherit=True)
     return stat, co
 
